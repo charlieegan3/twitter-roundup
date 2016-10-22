@@ -1,5 +1,9 @@
 <div>
   <h3>Round up for: <code><%= roundup.list_of_monitored_accounts.join(", ") %></code></h3>
+
+  <%= link_to 'Edit', edit_roundup_path(roundup) %> |
+  <%= link_to 'Delete', roundup,  method: :delete %>
+
   <p>
     Sent every <%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %>.
     <% if roundup.job.present? %>
@@ -8,6 +12,14 @@
       Currently no refresh scheduled.
     <% end %>
   </p>
+
+  <h4>Notifications Configured</h4>
+  <% if roundup.webhook_endpoint.present? %>
+    <p>
+      When reports are generated, a POST request is sent to:<br/>
+      <code><%= roundup.webhook_endpoint %></code>
+    </p>
+  <% end %>
 
   <h4>Latest Report</h4>
   <% if roundup.manually_refreshable? %>
@@ -26,15 +38,5 @@
         </tr>
       <% end %>
     </table>
-  <% end %>
-  <%= link_to 'Edit', edit_roundup_path(roundup) %><br/>
-  <%= link_to 'Delete', roundup,  method: :delete %><br/>
-
-  <h4>Notifications Configured</h4>
-  <% if roundup.webhook_endpoint.present? %>
-    <p>
-      When reports are generated, a POST request is sent to:<br/>
-      <code><%= roundup.webhook_endpoint %><code>
-    </p>
   <% end %>
 </div>
