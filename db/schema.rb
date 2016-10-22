@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022072820) do
+ActiveRecord::Schema.define(version: 20161022100255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "roundups", force: :cascade do |t|
+    t.integer  "user_id"
+    t.text     "monitored_accounts"
+    t.integer  "frequency",          default: 0
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["user_id"], name: "index_roundups_on_user_id", using: :btree
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "provider"
@@ -23,4 +32,5 @@ ActiveRecord::Schema.define(version: 20161022072820) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "roundups", "users"
 end
