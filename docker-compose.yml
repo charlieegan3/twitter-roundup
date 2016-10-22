@@ -1,0 +1,22 @@
+app:
+  build: .
+  command: bundle exec rails s -b 0.0.0.0 -p 3000
+  ports:
+    - "3000:3000"
+  links:
+    - db:postgres
+  volumes:
+    - "./:/app"
+  environment:
+    POSTGRES_USER: myapp
+    POSTGRES_PASSWORD: password
+
+db:
+  image: postgres:9.4.5
+  ports:
+    - "5432:5432"
+  volumes:
+    - "database_volume:/var/lib/postgresql/data"
+  environment:
+    POSTGRES_USER: myapp
+    POSTGRES_PASSWORD: password
