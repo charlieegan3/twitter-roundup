@@ -1,6 +1,6 @@
 class Roundup < ApplicationRecord
   belongs_to :user
-  has_many :roundup_reports
+  has_many :roundup_reports, dependent: :destroy
 
   after_save :schedule_job
   before_destroy :remove_job
@@ -34,7 +34,9 @@ class Roundup < ApplicationRecord
   end
 
   def manually_refreshable?
-    if job.present?
+    if Time.zone.now - self.created_at < 5.minutes
+      true
+    elsif job.present?
       Time.zone.now - self.scheduled_at > 5.minutes
     else
       true
