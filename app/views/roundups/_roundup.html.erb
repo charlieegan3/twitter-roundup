@@ -1,0 +1,26 @@
+<div>
+  <h3>Round up for: <code><%= roundup.list_of_monitored_accounts.join(", ") %></code></h3>
+  <p>
+    Sent every <%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %>.
+    <% if roundup.job.present? %>
+      Next refresh in <%= distance_of_time_in_words(roundup.job.run_at, Time.zone.now) %>.
+    <% else %>
+      Currently no refresh scheduled.
+    <% end %>
+  </p>
+  <h4>Latest Report</h4>
+  <% unless roundup.roundup_reports.empty? %>
+    <p>Created <%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</p>
+    <table>
+      <% roundup.roundup_reports.last.tweets.each do |tweet| %>
+        <tr>
+          <th><%= tweet[:username] %><th>
+          <td>Posted: <%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
+          <td><code><%= tweet[:text] %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  <td><%= link_to 'Edit', edit_roundup_path(roundup) %></td>
+  <td><%= link_to 'Delete', roundup,  method: :delete %></td>
+</div>

@@ -1,5 +1,6 @@
 class Roundup < ApplicationRecord
   belongs_to :user
+  has_many :roundup_reports
 
   after_save :schedule_job
   before_destroy :remove_job
@@ -23,8 +24,8 @@ class Roundup < ApplicationRecord
   end
 
   def refresh
-    tweets = TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago)
-    puts tweets
+    roundup_reports.create(
+      tweets: TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago))
     schedule_job
   end
 

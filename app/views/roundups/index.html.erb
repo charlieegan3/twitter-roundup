@@ -2,26 +2,6 @@
 
 <%= link_to 'New', new_roundup_path %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Accounts</th>
-      <th>Created</th>
-      <th>Next Update</th>
-      <th></th>
-    </tr>
-  </thead>
-  <% @roundups.each do |r| %>
-    <tr>
-      <td><%= r.monitored_accounts %></td>
-      <td><%= distance_of_time_in_words(r.created_at, Time.zone.now) %></td>
-      <td>
-        <% if r.job.present? %>
-          <%= distance_of_time_in_words(r.job.run_at, Time.zone.now) %>
-        <% end %>
-      </td>
-      <td><%= link_to 'Edit', edit_roundup_path(r) %></td>
-      <td><%= link_to 'Delete', r,  method: :delete %></td>
-    </tr>
-  <% end %>
-</table>
+<% @roundups.each do |roundup| %>
+  <%= render 'roundup', roundup: roundup %>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022115506) do
+ActiveRecord::Schema.define(version: 20161022152837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,14 @@ ActiveRecord::Schema.define(version: 20161022115506) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  end
+
+  create_table "roundup_reports", force: :cascade do |t|
+    t.text     "tweets"
+    t.integer  "roundup_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["roundup_id"], name: "index_roundup_reports_on_roundup_id", using: :btree
   end
 
   create_table "roundups", force: :cascade do |t|
@@ -49,5 +57,6 @@ ActiveRecord::Schema.define(version: 20161022115506) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "roundup_reports", "roundups"
   add_foreign_key "roundups", "users"
 end
