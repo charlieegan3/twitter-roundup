@@ -25,14 +25,9 @@ class Roundup < ApplicationRecord
   end
 
   def refresh
-    roundup_reports.create(
+    report = roundup_reports.create(
       tweets: TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago))
-    if self.webhook_endpoint.present?
-      WebhookNotifier.new(self.webhook_endpoint, self.roundup_reports.last.tweets).post
-    end
-    if self.email_address.present?
-      EmailNotifier.new(self.email_address, self.roundup_reports.last.tweets).send
-    end
+    send_notifications unless report.empty?
     schedule_job
   end
 
@@ -50,6 +45,15 @@ class Roundup < ApplicationRecord
 
   def manually_refreshable_in
     REFRESH_TIME - (Time.zone.now - self.scheduled_at)
+  end
+
+  def send_notifications
+    if self.webhook_endpoint.present?
+      WebhookNotifier.new(self.webhook_endpoint, self.roundup_reports.last.tweets).post
+    end
+    if self.email_address.present?
+      EmailNotifier.new(self.email_address, self.roundup_reports.last.tweets).send
+    end
   end
 
   def period

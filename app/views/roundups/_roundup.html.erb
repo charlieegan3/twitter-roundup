@@ -35,14 +35,18 @@
   <% end %>
   <% unless roundup.roundup_reports.empty? %>
     <p>Created <%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</p>
-    <table>
-      <% roundup.roundup_reports.last.tweets.each do |tweet| %>
-        <tr>
-          <th><%= tweet[:username] %><th>
-          <td>Posted: <%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
-          <td><code><%= tweet[:text] %></td>
-        </tr>
-      <% end %>
-    </table>
+    <% if roundup.roundup_reports.last.tweets.empty? %>
+      <p>There were no new tweets for the selected period. No notifications were sent.</p>
+    <% else %>
+      <table>
+        <% roundup.roundup_reports.last.tweets.each do |tweet| %>
+          <tr>
+            <th><%= tweet[:username] %><th>
+            <td>Posted: <%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
+            <td><code><%= tweet[:text] %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
   <% end %>
 </div>
