@@ -40,7 +40,7 @@ class Roundup < ApplicationRecord
   end
 
   def manually_refreshable?
-    if Time.zone.now - self.created_at < 5.minutes
+    if Time.zone.now - self.updated_at < 5.minutes
       true
     elsif job.present?
       Time.zone.now - self.scheduled_at > 5.minutes

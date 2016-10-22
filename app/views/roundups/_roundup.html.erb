@@ -20,6 +20,12 @@
       <code><%= roundup.webhook_endpoint %></code>
     </p>
   <% end %>
+  <% if roundup.email_address.present? %>
+    <p>
+      When reports are generated, an email is sent to:<br/>
+      <code><%= roundup.email_address %></code>
+    </p>
+  <% end %>
 
   <h4>Latest Report</h4>
   <% if roundup.manually_refreshable? %>
