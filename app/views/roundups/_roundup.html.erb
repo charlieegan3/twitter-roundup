@@ -43,7 +43,7 @@
           <tr>
             <th><%= tweet[:username] %><th>
             <td>Posted: <%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
-            <td><code><%= tweet[:text] %></td>
+            <td><code><%= sanitize(tweet[:text]) %></td>
           </tr>
         <% end %>
       </table>
