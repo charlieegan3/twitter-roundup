@@ -2,15 +2,20 @@ class Roundup < ApplicationRecord
   belongs_to :user
 
   after_save :schedule_job
+  before_destroy :remove_job
 
   def schedule_job
-    job.destroy if job
+    remove_job
     new_job = Delayed::Job.enqueue({
       payload_object: Delayed::PerformableMethod.new(self, :refresh, []),
       priority: 10,
       run_at: period.from_now,
     })
     update_columns(delayed_job_id: new_job.id, scheduled_at: Time.zone.now)
+  end
+
+  def remove_job
+    job.destroy if job
   end
 
   def job
@@ -34,7 +39,7 @@ class Roundup < ApplicationRecord
     end
   end
 
-  def self.frequencies
-    [['Daily', 0], ['Weekly', 1]]
+  def frequencies
+    [['Daily', 0], ['Weekly', 1]].sort_by { |label, value| (value - self.frequency).abs }
   end
 end

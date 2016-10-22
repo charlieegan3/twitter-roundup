@@ -1,17 +1,34 @@
 class RoundupsController < ApplicationController
   before_filter :authorize
 
+  def index
+    @roundups = Roundup.where(user: current_user)
+  end
+
   def new
     @roundup = Roundup.new
   end
 
   def create
     @roundup = Roundup.create(roundup_params)
-    redirect_to roundup_path(@roundup)
+    redirect_to roundups_path
   end
 
-  def show
+  def edit
     @roundup = Roundup.find(params[:id])
+  end
+
+  def update
+    @roundup = Roundup.find(params[:id])
+    puts @roundup
+    puts roundup_params.inspect
+    @roundup.update_attributes!(roundup_params)
+    redirect_to roundups_path
+  end
+
+  def destroy
+    Roundup.find(params[:id]).destroy
+    redirect_to roundups_path
   end
 
   private

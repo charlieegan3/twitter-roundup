@@ -3,7 +3,7 @@
   <%= f.text_area :monitored_accounts, cols: 30, rows: 15, placeholder: monitored_accounts_placeholder %><br />
 
   <%= f.label :frequency %>:
-  <%= select_tag(:frequency, options_for_select(Roundup.frequencies)) %><br />
+  <%= f.select(:frequency, options_for_select(roundup_frequencies(@roundup))) %><br />
 
   <%= f.submit %>
 <% end %>
