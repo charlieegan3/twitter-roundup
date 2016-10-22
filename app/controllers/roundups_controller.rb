@@ -20,8 +20,6 @@ class RoundupsController < ApplicationController
 
   def update
     @roundup = Roundup.find(params[:id])
-    puts @roundup
-    puts roundup_params.inspect
     @roundup.update_attributes!(roundup_params)
     redirect_to roundups_path
   end
