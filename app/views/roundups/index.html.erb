@@ -1,7 +1,13 @@
 <h2>Your Roundups</h2>
 
-<%= link_to 'New', new_roundup_path %>
+<p>
+  <%= link_to 'New Roundup', new_roundup_path, class: "btn btn-success btn-lg" %>
+</p>
 
-<% @roundups.each do |roundup| %>
-  <%= render 'roundup', roundup: roundup %>
+<% unless @roundups.empty? %>
+  <p>All your link roundups are listed below.</p>
+<% end %>
+
+<% @roundups.each_with_index do |roundup, index| %>
+  <%= render 'roundup', roundup: roundup, index: index %>
 <% end %>

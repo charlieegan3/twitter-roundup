@@ -1,49 +1,63 @@
-<div>
-  <h3>Round up for: <code><%= roundup.list_of_monitored_accounts.join(", ") %></code></h3>
+<h4><strong>Roundup <%= index + 1 %>:</strong> <code><%= roundup.list_of_monitored_accounts.join(", ") %></code></h4>
 
-  <%= link_to 'Edit', edit_roundup_path(roundup) %> |
-  <%= link_to 'Delete', roundup,  method: :delete %>
-
+<div class="well">
   <p>
-    Sent every <%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %>.
+  Sent every <strong><%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %></strong>.
     <% if roundup.job.present? %>
-      Next refresh in <%= distance_of_time_in_words(roundup.job.run_at, Time.zone.now) %>.
+      Next report refresh &amp; notification trigger in <strong><%= distance_of_time_in_words(roundup.job.run_at, Time.zone.now) %></strong>.
     <% else %>
       Currently no refresh scheduled.
     <% end %>
   </p>
 
+  <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-md" %>
+  <%= link_to 'Delete', roundup,  method: :delete, class: "btn btn-danger btn-md" %>
+
   <h4>Notifications Configured</h4>
+  <% if !roundup.webhook_endpoint.present? && !roundup.email_address.present? %>
+    <p>
+      There are no notifications configured.
+      <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-sm" %>
+      to add a webhook endpoint or subscribe an email address.
+    </p>
+  <% else %>
+    <p>When reports are generated, notifications are sent out.</p>
+  <% end %>
   <% if roundup.webhook_endpoint.present? %>
     <p>
-      When reports are generated, a POST request is sent to:<br/>
+      A POST request is sent to:<br/>
       <code><%= roundup.webhook_endpoint %></code>
     </p>
   <% end %>
   <% if roundup.email_address.present? %>
     <p>
-      When reports are generated, an email is sent to:<br/>
+      An email is sent to:<br/>
       <code><%= roundup.email_address %></code>
     </p>
   <% end %>
 
-  <h4>Latest Report</h4>
+  <h4>Reports</h4>
   <% if roundup.manually_refreshable? %>
-    <%= link_to 'Refresh Now', refresh_roundup_path(roundup), method: :post %>
+    <p>
+      <%= link_to 'Trigger Report Refresh', refresh_roundup_path(roundup), method: :post, class: "btn btn-info btn-md" %>
+    </p>
   <% else %>
-    <p>Manual Refresh available in <%= distance_of_time_in_words(Time.zone.now - roundup.manually_refreshable_in, Time.zone.now) %></p>
+    <p>Manual Refresh available in <strong><%= distance_of_time_in_words(Time.zone.now - roundup.manually_refreshable_in, Time.zone.now) %></strong>.</p>
   <% end %>
   <% unless roundup.roundup_reports.empty? %>
-    <p>Created <%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</p>
     <% if roundup.roundup_reports.last.tweets.empty? %>
       <p>There were no new tweets for the selected period. No notifications were sent.</p>
     <% else %>
-      <table>
+      <p>
+        Latest report created <strong><%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</strong>
+        Showing latest of <strong><%= roundup.roundup_reports.size %></strong> total reports.</strong>
+      </p>
+      <table class="table">
         <% roundup.roundup_reports.last.tweets.each do |tweet| %>
           <tr>
             <th><%= tweet[:username] %><th>
-            <td>Posted: <%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
             <td><code><%= sanitize(tweet[:text]) %></td>
+            <td><%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
           </tr>
         <% end %>
       </table>
