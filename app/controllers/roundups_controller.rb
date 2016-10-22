@@ -2,7 +2,7 @@ class RoundupsController < ApplicationController
   before_filter :authorize
 
   def index
-    @roundups = Roundup.where(user: current_user)
+    @roundups = Roundup.where(user: current_user).order(:created_at)
   end
 
   def new

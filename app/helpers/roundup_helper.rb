@@ -8,9 +8,7 @@ module RoundupHelper
     TEXT
   end
 
-  def roundup_frequencies(roundup)
-    [['Daily', 0], ['Weekly', 1]].sort_by do |label, value|
-      (value - roundup.frequency).abs
-    end
+  def roundup_frequencies
+    [['Daily', 0], ['Weekly', 1]]
   end
 end
