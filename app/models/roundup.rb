@@ -2,8 +2,9 @@ class Roundup < ApplicationRecord
   belongs_to :user
   has_many :roundup_reports, dependent: :destroy
 
-  after_save :schedule_job
   before_destroy :remove_job
+
+  REFRESH_TIME = 2.minutes
 
   def schedule_job(run_at=period.from_now)
     remove_job
@@ -40,17 +41,15 @@ class Roundup < ApplicationRecord
   end
 
   def manually_refreshable?
-    if Time.zone.now - self.updated_at < 5.minutes
-      true
-    elsif job.present?
-      Time.zone.now - self.scheduled_at > 5.minutes
+    if job.present?
+      Time.zone.now - self.scheduled_at > REFRESH_TIME
     else
       true
     end
   end
 
   def manually_refreshable_in
-    5.minutes - (Time.zone.now - self.scheduled_at)
+    REFRESH_TIME - (Time.zone.now - self.scheduled_at)
   end
 
   def period

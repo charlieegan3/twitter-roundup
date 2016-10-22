@@ -11,6 +11,7 @@ class RoundupsController < ApplicationController
 
   def create
     @roundup = Roundup.create(roundup_params)
+    @roundup.schedule_job(Time.zone.now)
     redirect_to roundups_path
   end
 
