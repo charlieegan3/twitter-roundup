@@ -29,6 +29,12 @@ class RoundupsController < ApplicationController
     redirect_to roundups_path
   end
 
+  def refresh
+    Roundup.find(params[:id]).schedule_job(Time.zone.now)
+    flash[:success] = 'Refresh triggered, check back shortly.'
+    redirect_to roundups_path
+  end
+
   private
 
   def roundup_params

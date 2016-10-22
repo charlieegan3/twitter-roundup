@@ -9,6 +9,11 @@
     <% end %>
   </p>
   <h4>Latest Report</h4>
+  <% if roundup.manually_refreshable? %>
+    <%= link_to 'Refresh Now', refresh_roundup_path(roundup), method: :post %>
+  <% else %>
+    <p>Manual Refresh available in <%= distance_of_time_in_words(Time.zone.now - roundup.manually_refreshable_in, Time.zone.now) %></p>
+  <% end %>
   <% unless roundup.roundup_reports.empty? %>
     <p>Created <%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</p>
     <table>

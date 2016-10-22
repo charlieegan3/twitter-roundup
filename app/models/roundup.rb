@@ -5,12 +5,12 @@ class Roundup < ApplicationRecord
   after_save :schedule_job
   before_destroy :remove_job
 
-  def schedule_job
+  def schedule_job(run_at=period.from_now)
     remove_job
     new_job = Delayed::Job.enqueue({
       payload_object: Delayed::PerformableMethod.new(self, :refresh, []),
       priority: 10,
-      run_at: period.from_now,
+      run_at: run_at,
     })
     update_columns(delayed_job_id: new_job.id, scheduled_at: Time.zone.now)
   end
@@ -31,6 +31,18 @@ class Roundup < ApplicationRecord
 
   def list_of_monitored_accounts
     self.monitored_accounts.scan(/(?:@|^)(\S+)/).flatten
+  end
+
+  def manually_refreshable?
+    if job.present?
+      Time.zone.now - self.scheduled_at > 5.minutes
+    else
+      true
+    end
+  end
+
+  def manually_refreshable_in
+    5.minutes - (Time.zone.now - self.scheduled_at)
   end
 
   def period
