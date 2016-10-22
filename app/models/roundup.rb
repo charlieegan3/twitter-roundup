@@ -26,6 +26,9 @@ class Roundup < ApplicationRecord
   def refresh
     roundup_reports.create(
       tweets: TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago))
+    if self.webhook_endpoint.present?
+      WebhookNotifier.new(self.webhook_endpoint, self.roundup_reports.last.tweets).post
+    end
     schedule_job
   end
 

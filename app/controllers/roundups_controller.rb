@@ -30,8 +30,11 @@ class RoundupsController < ApplicationController
   end
 
   def refresh
-    Roundup.find(params[:id]).schedule_job(Time.zone.now)
-    flash[:success] = 'Refresh triggered, check back shortly.'
+    roundup = Roundup.find(params[:id])
+    if roundup.manually_refreshable?
+      roundup.schedule_job(Time.zone.now)
+      flash[:success] = 'Refresh triggered, check back shortly.'
+    end
     redirect_to roundups_path
   end
 
@@ -40,7 +43,7 @@ class RoundupsController < ApplicationController
   def roundup_params
     params
       .require(:roundup)
-      .permit(:monitored_accounts, :frequency)
+      .permit(:monitored_accounts, :frequency, :webhook_endpoint)
       .merge(user: current_user)
   end
 end

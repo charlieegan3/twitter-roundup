@@ -8,6 +8,7 @@
       Currently no refresh scheduled.
     <% end %>
   </p>
+
   <h4>Latest Report</h4>
   <% if roundup.manually_refreshable? %>
     <%= link_to 'Refresh Now', refresh_roundup_path(roundup), method: :post %>
@@ -26,6 +27,14 @@
       <% end %>
     </table>
   <% end %>
-  <td><%= link_to 'Edit', edit_roundup_path(roundup) %></td>
-  <td><%= link_to 'Delete', roundup,  method: :delete %></td>
+  <%= link_to 'Edit', edit_roundup_path(roundup) %><br/>
+  <%= link_to 'Delete', roundup,  method: :delete %><br/>
+
+  <h4>Notifications Configured</h4>
+  <% if roundup.webhook_endpoint.present? %>
+    <p>
+      When reports are generated, a POST request is sent to:<br/>
+      <code><%= roundup.webhook_endpoint %><code>
+    </p>
+  <% end %>
 </div>
