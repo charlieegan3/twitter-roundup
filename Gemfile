@@ -11,6 +11,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
 gem 'omniauth-twitter'
+gem 'twitter'
 
 gem 'delayed_job_active_record'
 

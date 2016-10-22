@@ -23,9 +23,13 @@ class Roundup < ApplicationRecord
   end
 
   def refresh
-    puts "Refreshed"
-    puts self.inspect
+    tweets = TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago)
+    puts tweets
     schedule_job
+  end
+
+  def list_of_monitored_accounts
+    self.monitored_accounts.scan(/(?:@|^)(\S+)/).flatten
   end
 
   def period
@@ -37,9 +41,5 @@ class Roundup < ApplicationRecord
     else
       1.week
     end
-  end
-
-  def frequencies
-    [['Daily', 0], ['Weekly', 1]].sort_by { |label, value| (value - self.frequency).abs }
   end
 end
