@@ -1,10 +1,48 @@
-<% if current_user %>
-  <ul>
-	<li><%= current_user.username %></li>
-	<li><%= link_to 'Log Out', logout_path, method: :delete %></li>
+<div class="jumbotron">
+  <h1>Twitter Roundup</h1>
+  <p>Login to get periodic, aggregated link 'roundups' via email or webhook for a chosen list of Twitter accounts.</p>
+
+  <strong>Will I find this useful?</strong>
+  <ul style="list-style-type: none; padding-left: 10px;">
+    <li><span class="glyphicon glyphicon-ok" style="color: YellowGreen;"></span> I'm only interested in links from some Twitter accounts.</li>
+    <li><span class="glyphicon glyphicon-ok" style="color: YellowGreen;"></span> I'd like to follow some noisy accounts on a periodic basis.</li>
+    <li><span class="glyphicon glyphicon-ok" style="color: YellowGreen;"></span> I'd like emails or webhook notifications.</li>
+    <li><span class="glyphicon glyphicon-remove" style="color: OrangeRed;"></span> I want more than just Tweets with links. (more customizable filters coming soon)</li>
+    <li><span class="glyphicon glyphicon-remove" style="color: OrangeRed;"></span> I want more regular updates. (I'm gauging how far I can push the Twitter API before rate limiting)</li>
+    <li><span class="glyphicon glyphicon-remove" style="color: OrangeRed;"></span> I want custom webhooks (I'm thinking about a good interface for this, try zapier in the meantime)</li>
+    <li><span class="glyphicon glyphicon-remove" style="color: OrangeRed;"></span> I can't sign in with Twitter (I've only had time for one auth provider so far)</li>
   </ul>
-<% else %>
-  <ul>
-	<li><%= link_to 'Twitter', '/auth/twitter' %></li>
-  </ul>
-<% end %>
+
+  <% if current_user %>
+	<%= link_to "Manage Roundups", roundups_path, class: "btn btn-success btn-lg" %>
+	<%= link_to sanitize("Log out <b>#{current_user.username}</b>"), logout_path, method: :delete, class: "btn btn-warning btn-lg" %>
+  <% else %>
+	<%= link_to 'Login with Twitter', '/auth/twitter', class: "btn btn-info btn-lg" %>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <h2>Example Webhook Data</h2>
+    <p>List of tweets (username, text, url) then HTML list of same tweets.</p>
+    <pre>
+{
+  "tweets": [
+    {
+      "username": "charlieegan3",
+      "text": "Checkout this awesome site",
+      "url": "https://gentle-beach-11189.herokuapp.com"
+    },
+    ...
+  ],
+  "tweets_html": "&lt;p&gt;username: &lt;a href=\"http...\"&gt;..."
+}
+    </pre>
+  </div>
+  <div class="col-md-6">
+    <h2>Example Email</h2>
+    <p>List of tweets where tweet text is a link to the tweet's external url</p>
+    <img style="width: 100%; border: 1px solid LightGrey; border-radius: 5px" src="http://i.imgur.com/sP3WPl2.png"/>
+  </div>
+  </div>
+</div>
