@@ -1,0 +1,10 @@
+<% if current_user %>
+  <ul>
+	<li><%= current_user.username %></li>
+	<li><%= link_to 'Log Out', logout_path, method: :delete %></li>
+  </ul>
+<% else %>
+  <ul>
+	<li><%= link_to 'Twitter', '/auth/twitter' %></li>
+  </ul>
+<% end %>

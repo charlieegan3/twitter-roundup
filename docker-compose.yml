@@ -8,6 +8,8 @@ app:
   volumes:
     - "./:/app"
   environment:
+    TWITTER_KEY: "${TWITTER_KEY}"
+    TWITTER_SECRET: "${TWITTER_SECRET}"
     POSTGRES_USER: myapp
     POSTGRES_PASSWORD: password
 
