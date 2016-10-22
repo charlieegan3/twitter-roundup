@@ -13,6 +13,19 @@ app:
     POSTGRES_USER: myapp
     POSTGRES_PASSWORD: password
 
+worker:
+  build: .
+  command: bundle exec rake jobs:work
+  links:
+    - db:postgres
+  volumes:
+    - "./:/app"
+  environment:
+    TWITTER_KEY: "${TWITTER_KEY}"
+    TWITTER_SECRET: "${TWITTER_SECRET}"
+    POSTGRES_USER: myapp
+    POSTGRES_PASSWORD: password
+
 db:
   image: postgres:9.4.5
   ports:

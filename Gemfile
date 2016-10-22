@@ -12,6 +12,8 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'omniauth-twitter'
 
+gem 'delayed_job_active_record'
+
 group :development, :test do
   gem 'byebug', platform: :mri
 end
