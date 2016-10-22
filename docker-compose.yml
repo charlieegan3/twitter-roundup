@@ -14,6 +14,7 @@ app:
     TWITTER_ACCESS_SECRET: "${TWITTER_ACCESS_SECRET}"
     POSTGRES_USER: myapp
     POSTGRES_PASSWORD: password
+    POSTMARK_KEY: "${POSTMARK_API_TOKEN}"
 
 worker:
   build: .
@@ -29,6 +30,7 @@ worker:
     TWITTER_ACCESS_SECRET: "${TWITTER_ACCESS_SECRET}"
     POSTGRES_USER: myapp
     POSTGRES_PASSWORD: password
+    POSTMARK_KEY: "${POSTMARK_API_TOKEN}"
 
 db:
   image: postgres:9.4.5

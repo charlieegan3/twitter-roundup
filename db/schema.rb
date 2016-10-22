@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022165615) do
+ActiveRecord::Schema.define(version: 20161022201206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20161022165615) do
     t.datetime "scheduled_at"
     t.integer  "delayed_job_id"
     t.string   "webhook_endpoint"
+    t.string   "email_address"
     t.index ["user_id"], name: "index_roundups_on_user_id", using: :btree
   end
 

@@ -29,6 +29,9 @@ class Roundup < ApplicationRecord
     if self.webhook_endpoint.present?
       WebhookNotifier.new(self.webhook_endpoint, self.roundup_reports.last.tweets).post
     end
+    if self.email_address.present?
+      EmailNotifier.new(self.email_address, self.roundup_reports.last.tweets).send
+    end
     schedule_job
   end
 

@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'omniauth-twitter'
 gem 'twitter'
+gem 'postmark'
 
 gem 'delayed_job_active_record'
 

@@ -43,7 +43,7 @@ class RoundupsController < ApplicationController
   def roundup_params
     params
       .require(:roundup)
-      .permit(:monitored_accounts, :frequency, :webhook_endpoint)
+      .permit(:monitored_accounts, :frequency, :webhook_endpoint, :email_address)
       .merge(user: current_user)
   end
 end
