@@ -10,7 +10,7 @@ class TwitterCollector
 
   def build_roundup_for(users, from_time, whitelist, blacklist, links_only)
     [].tap do |formatted_tweets|
-      users.each do |user|
+      users.take(Rails.configuration.roundup_account_limit).each do |user|
         begin
           tweets = @client.user_timeline(user, exclude_replies: true, include_rts: true, trim_user: true, count: 100)
         rescue Twitter::Error => e

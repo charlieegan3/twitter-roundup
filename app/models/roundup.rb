@@ -33,7 +33,7 @@ class Roundup < ApplicationRecord
   end
 
   def list_of_monitored_accounts
-    self.monitored_accounts.scan(/(?:@|^)(\S+)/).flatten
+    self.monitored_accounts.scan(/(?:@|^)(\S+)/).flatten.uniq
   end
 
   def manually_refreshable?

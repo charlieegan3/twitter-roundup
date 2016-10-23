@@ -3,6 +3,17 @@
   <%= sanitize(roundup.list_of_monitored_accounts.map { |acc| link_to "@#{acc}", "https://twitter.com/#{acc}" }.join(", ")) %>
 </h4>
 
+<% if roundup.list_of_monitored_accounts.size > Rails.configuration.roundup_account_limit %>
+  <div>
+    <p>
+      <span style="color: OrangeRed;">
+        Warning:
+      </span>
+      only the first 10 accounts will be included. (Trying to gauge what I can get away with from the twitter API before rate limiting)
+    </p>
+  </div>
+<% end %>
+
 <div class="well">
   <div class="btn-group">
     <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-sm" %>
