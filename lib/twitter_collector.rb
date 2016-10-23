@@ -8,7 +8,7 @@ class TwitterCollector
     end
   end
 
-  def build_roundup_for(users, from_time)
+  def build_roundup_for(users, from_time, whitelist, blacklist)
     [].tap do |formatted_tweets|
       users.each do |user|
         begin
@@ -18,6 +18,8 @@ class TwitterCollector
           next
         end
         tweets.select! { |t| t.created_at > from_time && t.urls? }
+        tweets.select! { |t| whitelist.any? { |e| t.text.downcase.include? e.downcase } } unless whitelist.empty?
+        tweets.reject! { |t| blacklist.any? { |e| t.text.downcase.include? e.downcase } } unless blacklist.empty?
 
         tweets.each do |t|
           text = t.text.gsub(/https?\S+/, "").strip

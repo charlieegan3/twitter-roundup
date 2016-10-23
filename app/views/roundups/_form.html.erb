@@ -5,6 +5,15 @@
   </div>
 
   <div class="form-group">
+    <p>Optionally include or exclude tweets based on text content. Leave blank for #nofilter.</p>
+    <%= f.label "Include words" %>:<br/>
+    <%= f.text_field :whitelist, placeholder: 'awesome, wow', class: "form-control" %>
+
+    <%= f.label "Exclude words" %>:<br/>
+    <%= f.text_field :blacklist, placeholder: 'boring, dull, uninteresting', class: "form-control" %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :frequency %>:<br/>
     <%= f.radio_button(:frequency, "0", checked: @roundup.frequency != 1) %>
     <%= f.label(:frequency, "Daily") %>

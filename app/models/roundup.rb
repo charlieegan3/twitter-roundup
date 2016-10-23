@@ -26,7 +26,8 @@ class Roundup < ApplicationRecord
 
   def refresh
     report = roundup_reports.create(
-      tweets: TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago))
+      tweets: TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago, format_list(self.whitelist), format_list(self.blacklist))
+    )
     send_notifications unless report.empty?
     schedule_job
   end
@@ -54,6 +55,10 @@ class Roundup < ApplicationRecord
     if self.email_address.present?
       EmailNotifier.new(self.email_address, self.roundup_reports.last.tweets).send
     end
+  end
+
+  def format_list(list)
+    list.nil? ? [] : list.split(/\W+/)
   end
 
   def period
