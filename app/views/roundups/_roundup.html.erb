@@ -62,7 +62,9 @@
   <% else %>
     <p class="text-muted">Manual Refresh available in <strong><%= distance_of_time_in_words(Time.zone.now - roundup.manually_refreshable_in, Time.zone.now) %></strong>.</p>
   <% end %>
-  <% unless roundup.roundup_reports.empty? %>
+  <% if roundup.roundup_reports.empty? %>
+    <p style="color: OrangeRed;">Please check back shortly for your first report.</p>
+  <% else %>
     <% if roundup.roundup_reports.last.tweets.empty? %>
       <p>Latest report created <strong><%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</strong></p>
       <p class="text-muted">There were no new tweets to report in the selected period. No notifications were sent.</p>
