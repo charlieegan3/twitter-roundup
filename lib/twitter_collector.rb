@@ -8,7 +8,7 @@ class TwitterCollector
     end
   end
 
-  def build_roundup_for(users, from_time, whitelist, blacklist)
+  def build_roundup_for(users, from_time, whitelist, blacklist, links_only)
     [].tap do |formatted_tweets|
       users.each do |user|
         begin
@@ -17,7 +17,9 @@ class TwitterCollector
           Rollbar.error(e)
           next
         end
-        tweets.select! { |t| t.created_at > from_time && t.urls? }
+
+        tweets.select! { |t| t.created_at > from_time }
+        tweets.select! { |t| t.urls? } if links_only == true
         tweets.select! { |t| whitelist.any? { |e| t.text.downcase.include? e.downcase } } unless whitelist.empty?
         tweets.reject! { |t| blacklist.any? { |e| t.text.downcase.include? e.downcase } } unless blacklist.empty?
 

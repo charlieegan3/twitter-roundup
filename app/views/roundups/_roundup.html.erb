@@ -65,7 +65,11 @@
           <tr>
             <th><%= tweet[:username] %><th>
             <td><code><%= sanitize(tweet[:text]) %></td>
-            <td><%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
+            <% if tweet[:url].present? %>
+              <td><%= link_to "Link #{tweet[:url].split("/").last}", tweet[:url] %></td>
+            <% else %>
+              <td>No Link</td>
+            <% end %>
           </tr>
         <% end %>
       </table>
