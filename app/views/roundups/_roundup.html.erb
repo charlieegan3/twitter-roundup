@@ -14,14 +14,6 @@
   </p>
 
   <h4>Notifications Configured</h4>
-  <p>
-    Sent every <strong><%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %></strong>.
-    <% if roundup.job.present? %>
-      Next report refresh &amp; notification trigger in <strong><%= distance_of_time_in_words(roundup.job.run_at, Time.zone.now) %></strong>.
-    <% else %>
-      Currently no refresh scheduled.
-    <% end %>
-  </p>
   <% if !roundup.webhook_endpoint.present? && !roundup.email_address.present? %>
     <p>
       There are no notifications configured.
@@ -29,7 +21,14 @@
       to add a webhook endpoint or subscribe an email address.
     </p>
   <% else %>
-    <p>When reports are generated, notifications are sent out.</p>
+    <p>
+      When reports are generated (<strong>every <%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %></strong>), notifications are sent out.
+      <% if roundup.job.present? %>
+        Next report refresh &amp; notification trigger: <strong>in <%= distance_of_time_in_words(roundup.job.run_at, Time.zone.now) %></strong>.
+      <% else %>
+        Currently no refresh scheduled.
+      <% end %>
+    </p>
   <% end %>
   <% if roundup.webhook_endpoint.present? %>
     <p>
