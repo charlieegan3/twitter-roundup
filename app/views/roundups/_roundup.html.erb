@@ -4,23 +4,28 @@
 </h4>
 
 <div class="well">
+  <div class="btn-group">
+    <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-sm" %>
+    <%= link_to 'Delete', roundup,  method: :delete, class: "btn btn-danger btn-sm" %>
+  </div>
+
+  <p class="text-muted">
+    Created <strong><%= distance_of_time_in_words(Time.zone.now, roundup.created_at) %> ago</strong>.
+  </p>
+
+  <h4>Notifications Configured</h4>
   <p>
-  Sent every <strong><%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %></strong>.
+    Sent every <strong><%= distance_of_time_in_words(t = Time.zone.now, t += roundup.period) %></strong>.
     <% if roundup.job.present? %>
       Next report refresh &amp; notification trigger in <strong><%= distance_of_time_in_words(roundup.job.run_at, Time.zone.now) %></strong>.
     <% else %>
       Currently no refresh scheduled.
     <% end %>
   </p>
-
-  <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-md" %>
-  <%= link_to 'Delete', roundup,  method: :delete, class: "btn btn-danger btn-md" %>
-
-  <h4>Notifications Configured</h4>
   <% if !roundup.webhook_endpoint.present? && !roundup.email_address.present? %>
     <p>
       There are no notifications configured.
-      <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-sm" %>
+      <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-xs" %>
       to add a webhook endpoint or subscribe an email address.
     </p>
   <% else %>
@@ -42,14 +47,15 @@
   <h4>Reports</h4>
   <% if roundup.manually_refreshable? %>
     <p>
-      <%= link_to 'Trigger Report Refresh', refresh_roundup_path(roundup), method: :post, class: "btn btn-info btn-md" %>
+      <%= link_to 'Trigger Report Refresh', refresh_roundup_path(roundup), method: :post, class: "btn btn-info btn-sm" %>
     </p>
   <% else %>
     <p class="text-muted">Manual Refresh available in <strong><%= distance_of_time_in_words(Time.zone.now - roundup.manually_refreshable_in, Time.zone.now) %></strong>.</p>
   <% end %>
   <% unless roundup.roundup_reports.empty? %>
     <% if roundup.roundup_reports.last.tweets.empty? %>
-      <p>There were no new tweets for the selected period. No notifications were sent.</p>
+      <p>Latest report created <strong><%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</strong></p>
+      <p class="text-muted">There were no new tweets to report in the selected period. No notifications were sent.</p>
     <% else %>
       <p>
         Latest report created <strong><%= distance_of_time_in_words(roundup.roundup_reports.last.created_at, Time.zone.now) %> ago.</strong>

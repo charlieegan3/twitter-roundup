@@ -8,6 +8,6 @@
   <p>All your link roundups are listed below.</p>
 <% end %>
 
-<% @roundups.each_with_index do |roundup, index| %>
+<% @roundups.each_with_index.to_a.reverse.each do |roundup, index| %>
   <%= render 'roundup', roundup: roundup, index: index %>
 <% end %>
