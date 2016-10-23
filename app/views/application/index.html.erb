@@ -2,6 +2,15 @@
   <h1 style="color: white">Twitter Roundup</h1>
   <p>Login to get periodic, aggregated 'roundups' via email or webhook for a chosen list of Twitter accounts.</p>
 
+  <% if @total > Rails.configuration.count_display_threshold %>
+    <p>
+      So far,
+      <strong><%= @user_count %> users</strong> have created
+      <strong><%= @roundup_count %> roundups </strong> and received
+      <strong><%= @roundup_report_count %> reports</strong>.
+    </p>
+  <% end %>
+
   <% unless current_user %>
     <strong>Will I find this useful?</strong>
     <ul style="list-style-type: none; padding-left: 10px;">
