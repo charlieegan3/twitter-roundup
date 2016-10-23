@@ -11,7 +11,11 @@ class TwitterCollector
   def build_roundup_for(users, from_time)
     [].tap do |formatted_tweets|
       users.each do |user|
-        tweets = @client.user_timeline(user, exclude_replies: true, include_rts: true, trim_user: true, count: 200)
+        begin
+          tweets = @client.user_timeline(user, exclude_replies: true, include_rts: true, trim_user: true, count: 100)
+        rescue
+          next
+        end
         tweets.select! { |t| t.created_at > from_time && t.urls? }
 
         tweets.each do |t|
