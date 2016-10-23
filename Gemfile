@@ -16,6 +16,8 @@ gem 'postmark'
 
 gem 'delayed_job_active_record'
 
+gem 'rollbar'
+
 group :development, :test do
   gem 'byebug', platform: :mri
 end

@@ -13,7 +13,8 @@ class TwitterCollector
       users.each do |user|
         begin
           tweets = @client.user_timeline(user, exclude_replies: true, include_rts: true, trim_user: true, count: 100)
-        rescue
+        rescue Twitter::Error => e
+          Rollbar.error(e)
           next
         end
         tweets.select! { |t| t.created_at > from_time && t.urls? }
