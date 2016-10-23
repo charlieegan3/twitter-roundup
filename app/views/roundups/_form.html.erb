@@ -8,7 +8,7 @@
     <%= f.label :links_only %>:<br/>
     <%= f.radio_button(:links_only, true, checked: @roundup.links_only || @roundup.links_only.nil?) %>
     <%= f.label(:links_only, "Yes, only include tweets with links") %>
-    <%= f.radio_button(:links_only, false, checked: !@roundup.links_only) %>
+    <%= f.radio_button(:links_only, false, checked: @roundup.links_only == false) %>
     <%= f.label(:links_only, "No, don't exclude non-link tweets") %>
   </div>
 
