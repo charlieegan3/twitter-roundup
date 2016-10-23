@@ -1,4 +1,7 @@
-<h4><strong>Roundup <%= index + 1 %>:</strong> <code><%= roundup.list_of_monitored_accounts.join(", ") %></code></h4>
+<h4>
+  <strong>Roundup <%= index + 1 %>:</strong>
+  <%= sanitize(roundup.list_of_monitored_accounts.map { |acc| link_to "@#{acc}", "https://twitter.com/#{acc}" }.join(", ")) %>
+</h4>
 
 <div class="well">
   <p>
