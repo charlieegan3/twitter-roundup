@@ -1,15 +1,24 @@
 <%= form_for @roundup do |f| %>
-  <%= f.label "Accounts to monitor" %>:<br/>
-  <%= f.text_area :monitored_accounts, cols: 30, rows: 15, placeholder: monitored_accounts_placeholder %><br/>
+  <div class="form-group">
+    <%= f.label "Accounts to monitor" %>:<br/>
+    <%= f.text_area :monitored_accounts, rows: 15, placeholder: monitored_accounts_placeholder, class: "form-control" %>
+  </div>
 
-  <%= f.label :frequency %>:
-  <%= f.select(:frequency, options_for_select(roundup_frequencies, selected: @roundup.frequency)) %><br/>
+  <div class="form-group">
+    <%= f.label :frequency %>:<br/>
+    <%= f.radio_button(:frequency, "0", checked: @roundup.frequency != 1) %>
+    <%= f.label(:frequency, "Daily") %>
+    <%= f.radio_button(:frequency, "1", checked: @roundup.frequency == 1) %>
+    <%= f.label(:frequency, "Weekly") %>
+  </div>
 
-  <%= f.label "Webhook endpoint" %>:<br/>
-  <%= f.text_field :webhook_endpoint, placeholder: 'https://requestb.in/.....' %><br/>
+  <div class="form-group">
+    <%= f.label "Webhook endpoint" %>:<br/>
+    <%= f.text_field :webhook_endpoint, placeholder: 'https://requestb.in/.....', class: "form-control" %>
 
-  <%= f.label "Email address" %>:<br/>
-  <%= f.text_field :email_address, placeholder: 'account@domain.tld' %><br/>
+    <%= f.label "Email address" %>:<br/>
+    <%= f.text_field :email_address, placeholder: 'account@domain.tld', class: "form-control" %>
+  </div>
 
-  <%= f.submit %>
+  <%= f.submit class: "btn btn-success btn-lg" %>
 <% end %>
