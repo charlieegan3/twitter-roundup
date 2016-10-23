@@ -1,0 +1,18 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Twitter Roundups</a>
+    <ul class="nav navbar-nav">
+      <% if current_user %>
+        <li><%= link_to "Manage Roundups", roundups_path %></li>
+      <% end %>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <% if current_user %>
+        <li><%= link_to sanitize("Log out <b>#{current_user.username}</b>"), logout_path, method: :delete %></li>
+      <% else %>
+        <li><%= link_to 'Login with Twitter', '/auth/twitter' %></li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
+

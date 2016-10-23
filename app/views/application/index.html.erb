@@ -1,5 +1,5 @@
-<div class="jumbotron">
-  <h1>Twitter Roundup</h1>
+<div class="jumbotron" style="background-image: url(http://i.imgur.com/dnPFm2I.jpg); color: LightGrey;">
+  <h1 style="color: white">Twitter Roundup</h1>
   <p>Login to get periodic, aggregated link 'roundups' via email or webhook for a chosen list of Twitter accounts.</p>
 
   <strong>Will I find this useful?</strong>
@@ -15,7 +15,6 @@
 
   <% if current_user %>
 	<%= link_to "Manage Roundups", roundups_path, class: "btn btn-success btn-lg" %>
-	<%= link_to sanitize("Log out <b>#{current_user.username}</b>"), logout_path, method: :delete, class: "btn btn-warning btn-lg" %>
   <% else %>
 	<%= link_to 'Login with Twitter', '/auth/twitter', class: "btn btn-info btn-lg" %>
   <% end %>
