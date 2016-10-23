@@ -9,6 +9,11 @@ class RoundupsController < ApplicationController
     @roundup = Roundup.new
   end
 
+  def show
+    roundup = Roundup.find(params[:id])
+    redirect_to roundups_path + "#roundup-#{roundup.id}"
+  end
+
   def create
     @roundup = Roundup.create(roundup_params)
     @roundup.schedule_job(Time.zone.now)
