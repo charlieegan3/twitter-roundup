@@ -1,4 +1,4 @@
-<h4>
+<h4 id="roundup-<%= roundup.id %>">
   <strong>Roundup <%= index + 1 %>:</strong>
   <%= sanitize(roundup.list_of_monitored_accounts.map { |acc| link_to "@#{acc}", "https://twitter.com/#{acc}" }.join(", ")) %>
 </h4>

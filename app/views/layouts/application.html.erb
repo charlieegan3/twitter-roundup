@@ -10,8 +10,16 @@
   </head>
 
   <body>
+    <% flash.each do |name, msg| %>
+      <div style="width: 100%; position: fixed; z-index: 100; padding: 0px 10px;">
+        <%= content_tag :div, msg, class: "alert alert-#{name}", style: "width: 100%;" %>
+      </div>
+    <% end %>
     <div class="container">
+
+
       <%= render 'navbar' %>
+
       <%= yield %>
     <div>
   </body>

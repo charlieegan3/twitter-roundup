@@ -12,6 +12,7 @@ class RoundupsController < ApplicationController
   def create
     @roundup = Roundup.create(roundup_params)
     @roundup.schedule_job(Time.zone.now)
+    flash[:success] = "#{@roundup.list_of_monitored_accounts.join(', ')} roundup created; initial report refresh triggered - check back shortly."
     redirect_to roundups_path
   end
 
@@ -22,11 +23,13 @@ class RoundupsController < ApplicationController
   def update
     @roundup = Roundup.find(params[:id])
     @roundup.update_attributes!(roundup_params)
-    redirect_to roundups_path
+    flash[:success] = 'Roundup updated successfully.'
+    redirect_to roundups_path + "#roundup-#{@roundup.id}"
   end
 
   def destroy
     Roundup.find(params[:id]).destroy
+    flash[:success] = 'Roundup deleted successfully.'
     redirect_to roundups_path
   end
 
@@ -36,7 +39,7 @@ class RoundupsController < ApplicationController
       roundup.schedule_job(Time.zone.now)
       flash[:success] = 'Refresh triggered, check back shortly.'
     end
-    redirect_to roundups_path
+    redirect_to roundups_path + "#roundup-#{roundup.id}"
   end
 
   private
