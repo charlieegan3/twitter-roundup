@@ -22,3 +22,5 @@
 
 # bundle cache
 bundle.tar.gz
+
+local_env.sh
