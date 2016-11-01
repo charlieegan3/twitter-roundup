@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161023103940) do
+ActiveRecord::Schema.define(version: 20161101213222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20161023103940) do
     t.text     "whitelist"
     t.text     "blacklist"
     t.boolean  "links_only"
+    t.boolean  "include_retweets"
     t.index ["user_id"], name: "index_roundups_on_user_id", using: :btree
   end
 

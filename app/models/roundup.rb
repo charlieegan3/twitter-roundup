@@ -26,10 +26,21 @@ class Roundup < ApplicationRecord
 
   def refresh
     report = roundup_reports.create(
-      tweets: TwitterCollector.new.build_roundup_for(list_of_monitored_accounts, period.ago, format_list(self.whitelist), format_list(self.blacklist), self.links_only)
+      tweets: TwitterCollector.new.build_roundup_for(*twitter_collection_args)
     )
     send_notifications unless report.empty?
     schedule_job
+  end
+
+  def twitter_collection_args
+    [
+      list_of_monitored_accounts,
+      period.ago,
+      format_list(self.whitelist),
+      format_list(self.blacklist),
+      self.links_only,
+      self.include_retweets
+    ]
   end
 
   def list_of_monitored_accounts

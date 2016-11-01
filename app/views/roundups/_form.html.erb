@@ -13,6 +13,14 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :include_retweets %>:<br/>
+    <%= f.radio_button(:include_retweets , true, checked: @roundup.include_retweets || @roundup.include_retweets.nil?) %>
+    <%= f.label(:include_retweets , "Include retweets") %>
+    <%= f.radio_button(:include_retweets , false, checked: @roundup.include_retweets == false) %>
+    <%= f.label(:include_retweets , "Don't include retweets") %>
+  </div>
+
+  <div class="form-group">
     <p>Optionally include or exclude tweets based on text content. Leave blank for #nofilter.</p>
     <%= f.label "Include words" %>:<br/>
     <%= f.text_field :whitelist, placeholder: 'awesome, wow', class: "form-control" %>

@@ -8,7 +8,7 @@ class TwitterCollector
     end
   end
 
-  def build_roundup_for(users, from_time, whitelist, blacklist, links_only)
+  def build_roundup_for(users, from_time, whitelist, blacklist, links_only, include_retweets)
     [].tap do |formatted_tweets|
       users.take(Rails.configuration.roundup_account_limit).each do |user|
         begin
@@ -20,6 +20,7 @@ class TwitterCollector
 
         tweets.select! { |t| t.created_at > from_time }
         tweets.select! { |t| t.urls? } if links_only == true
+        tweets.reject! { |t| t.retweet? } if include_retweets == false
         tweets.select! { |t| whitelist.any? { |e| t.text.downcase.include? e.downcase } } unless whitelist.empty?
         tweets.reject! { |t| blacklist.any? { |e| t.text.downcase.include? e.downcase } } unless blacklist.empty?
 
