@@ -4,6 +4,8 @@ class Roundup < ApplicationRecord
 
   before_destroy :remove_job
 
+  after_create { Count.increment(:roundup) }
+
   REFRESH_TIME = 2.minutes
 
   def schedule_job(run_at=period.from_now)

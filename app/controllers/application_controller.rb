@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
 
   def index
     @total = [
-      @user_count = User.count,
-      @roundup_count = Roundup.count,
-      @roundup_report_count = RoundupReport.count
+      @user_count = Count.find_by_key(:user).value || 0,
+      @roundup_count = Count.find_by_key(:roundup).value || 0,
+      @roundup_report_count = Count.find_by_key(:roundup_report).value || 0
     ].reduce(:+)
   end
 
