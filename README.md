@@ -1,24 +1,6 @@
-# README
+# Twitter Roundup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This application was originally built as part of the Rails Rumble hackathon.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The idea is to aggregate tweets from a series of users into daily and weekly
+round ups. This can be delivered via email or webhook.
