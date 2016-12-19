@@ -1,5 +1,6 @@
 class RoundupsController < ApplicationController
   before_filter :authorize
+  skip_before_filter :authorize, only: :show, if: :rss_request?
 
   def index
     @roundups = Roundup.where(user: current_user).order(:created_at)
@@ -10,8 +11,14 @@ class RoundupsController < ApplicationController
   end
 
   def show
-    roundup = Roundup.find(params[:id])
-    redirect_to roundups_path + "#roundup-#{roundup.id}"
+    @roundup = Roundup.find(params[:id])
+
+    respond_to do |format|
+      format.rss { render layout: false }
+      format.html {
+        redirect_to roundups_path + "#roundup-#{@roundup.id}"
+      }
+    end
   end
 
   def create
@@ -54,5 +61,9 @@ class RoundupsController < ApplicationController
       .require(:roundup)
       .permit(:monitored_accounts, :frequency, :webhook_endpoint, :email_address, :whitelist, :blacklist, :links_only, :include_retweets)
       .merge(user: current_user)
+  end
+
+  def rss_request?
+    request.format.symbol == :rss
   end
 end

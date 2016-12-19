@@ -17,7 +17,8 @@
 <div class="well">
   <div class="btn-group">
     <%= link_to 'Edit', edit_roundup_path(roundup), class: "btn btn-warning btn-sm" %>
-    <%= link_to 'Delete', roundup,  method: :delete, class: "btn btn-danger btn-sm" %>
+    <%= link_to 'Delete', roundup, method: :delete, class: "btn btn-danger btn-sm" %>
+    <%= link_to 'RSS', roundup_path(roundup, format: :rss), class: "btn btn-info btn-sm" %>
   </div>
 
   <p class="text-muted">
