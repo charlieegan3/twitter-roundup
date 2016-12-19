@@ -6,7 +6,7 @@ app:
   links:
     - db:postgres
   volumes:
-    - "./:/app"
+    - "./:/app:Z"
   environment:
     TWITTER_KEY: "${TWITTER_KEY}"
     TWITTER_SECRET: "${TWITTER_SECRET}"
@@ -22,7 +22,7 @@ worker:
   links:
     - db:postgres
   volumes:
-    - "./:/app"
+    - "./:/app:Z"
   environment:
     TWITTER_KEY: "${TWITTER_KEY}"
     TWITTER_SECRET: "${TWITTER_SECRET}"
@@ -37,7 +37,7 @@ db:
   ports:
     - "5432:5432"
   volumes:
-    - "database_volume:/var/lib/postgresql/data"
+    - "database_volume:/var/lib/postgresql/data:Z"
   environment:
     POSTGRES_USER: myapp
     POSTGRES_PASSWORD: password
