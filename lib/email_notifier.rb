@@ -20,8 +20,12 @@ class EmailNotifier
   end
 
   def tweets_html
-    @tweets.map do |tweet|
+    (@tweets.map { |tweet|
       "<p>#{tweet[:username]}: <a href=\"#{tweet[:url]}\">#{tweet[:text]}</a></p>"
-    end.join("\n")
+    } + [link_html]).join("\n")
+  end
+
+  def link_html
+    "<hr/><p>Edit settings at <a href=\"https://twitter-roundup.herokuapp.com\">https://twitter-roundup.herokuapp.com</a></p>"
   end
 end
