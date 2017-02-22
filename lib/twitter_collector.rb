@@ -24,6 +24,8 @@ class TwitterCollector
         tweets.select! { |t| whitelist.any? { |e| t.text.downcase.include? e.downcase } } unless whitelist.empty?
         tweets.reject! { |t| blacklist.any? { |e| t.text.downcase.include? e.downcase } } unless blacklist.empty?
 
+        tweets.uniq! { |t| t.text.gsub(/https?\S+/, "") }
+
         tweets.each do |t|
           text = t.text.gsub(/https?\S+/, "").strip
           url = t.urls.map(&:url).map(&:to_s).first
